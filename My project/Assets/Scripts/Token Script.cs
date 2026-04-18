@@ -31,6 +31,7 @@ public class TokenScript : MonoBehaviour
         if (isOccupied) return;
         int index = turnScript.ChangeTurn() % 2;
         spriteRenderer.sprite = tokenSprites[index];
+        isOccupied = true;
         switch (index)
         {
             case 0:
@@ -42,6 +43,5 @@ public class TokenScript : MonoBehaviour
                 turnScript.win(gameObject);
                 break;
         }
-        isOccupied = true;
     }
 }
