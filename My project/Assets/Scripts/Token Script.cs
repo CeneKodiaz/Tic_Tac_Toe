@@ -25,11 +25,13 @@ public class TokenScript : MonoBehaviour
         spriteRenderer.sprite = null;
         isOccupied = false;
         Tokentype = TokenType.None;
+        turn = Random.Range(0, 2);
     }
     void OnMouseDown()
     {
         if (isOccupied) return;
-        int index = turnScript.ChangeTurn() % 2;
+        turn = turnScript.ChangeTurn();
+        int index = turn % 2;
         spriteRenderer.sprite = tokenSprites[index];
         switch (index)
         {
