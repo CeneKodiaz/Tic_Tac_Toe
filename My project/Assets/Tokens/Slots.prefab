@@ -105,10 +105,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0cb2548267f99479e7542a58fdc74a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TokenScript
+  turn: 0
+  index: 0
   spriteRenderer: {fileID: 6854092847359531035}
   tokenSprites:
   - {fileID: -5551806152569046452, guid: 1213782e3ce62d84c8f0ed433aa52681, type: 3}
-  - {fileID: 0}
+  - {fileID: 7343655707237007100, guid: 6d6fa091d07ef4b4aa6bfbf9edee3bac, type: 3}
+  isOccupied: 0
+  Tokentype: 0
 --- !u!61 &-622954617085798094
 BoxCollider2D:
   m_ObjectHideFlags: 0
