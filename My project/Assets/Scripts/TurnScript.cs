@@ -11,6 +11,8 @@ public class TurnScript : MonoBehaviour
     [SerializeField] private GameObject[] GameSlots;
     public int Turn = 0;
     [SerializeField] private int gamelength = 9;
+    public enum Player { PlayerX, PlayerO }
+    public Player currentPlayer;
     public Dictionary<int, int> winConditions = new Dictionary<int, int>()
     {
         {1, 123},
@@ -25,7 +27,7 @@ public class TurnScript : MonoBehaviour
     void Awake()
     {
         GameSlots = GameObject.FindGameObjectsWithTag("TokenSlot");
-        Array.Reverse(GameSlots);
+        System.Array.Sort(GameSlots, (a, b) => a.name.CompareTo(b.name));
     }
     public void win(GameObject slot)
     {
@@ -89,6 +91,40 @@ public class TurnScript : MonoBehaviour
     public void CheckWin(List<int> positions)
     {
         Debug.Log("Checking win conditions for positions: " + string.Join(", ", positions));
+        
+        foreach (int key in positions)
+        {
+            int Checks = winConditions[key];
+            List<int> playerPositions = new List<int>();
+            int hundreds = Checks / 100;
+            int tens = (Checks / 10) % 10;
+            int units = Checks % 10;
+            playerPositions.Add(hundreds - 1);
+            playerPositions.Add(tens - 1);
+            playerPositions.Add(units - 1);
+            if (GameSlots[playerPositions[0]].GetComponent<TokenScript>().Tokentype == GameSlots[playerPositions[1]].GetComponent<TokenScript>().Tokentype &&
+                GameSlots[playerPositions[0]].GetComponent<TokenScript>().Tokentype == GameSlots[playerPositions[2]].GetComponent<TokenScript>().Tokentype &&
+                GameSlots[playerPositions[0]].GetComponent<TokenScript>().Tokentype != TokenScript.TokenType.None)
+            {
+                MakeLine(playerPositions[0], playerPositions[2]);
+                Debug.Log("Player " + GameSlots[playerPositions[0]].GetComponent<TokenScript>().Tokentype + " wins!");
+                Invoke("ReloadScene", 2f); // Reload the scene after 2 seconds
+                return;
+            }
+
+        }
         return;
+    }
+
+    private void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void MakeLine(int first, int second)
+    {
+        Vector3 start = GameSlots[first].transform.position;
+        Vector3 end = GameSlots[second].transform.position;
+        Debug.DrawLine(start, end, Color.red, 2f);
     }
 }
